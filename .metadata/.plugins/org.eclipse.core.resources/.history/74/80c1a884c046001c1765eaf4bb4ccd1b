@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="042ac90c-bd2a-4d9f-bc02-6367bc12e849" >
+		<http:listener-connection host="0.0.0.0" port="${secure::http.port}" />
+	</http:listener-config>
+	<flow name="propertyFlow" doc:id="2dfaf775-a522-4f1c-9d4a-a07f2f7c0723" >
+		<http:listener doc:name="Listener" doc:id="27dc6a15-8585-4079-8659-1c1f75a82835" config-ref="HTTP_Listener_config" path="${secure:http.path}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="63ad58d9-8d92-4c01-8233-7bc4372b718e" message="the password is : ${secure::db.password}"/>
+	</flow>
+</mule>

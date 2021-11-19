@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="2ffa64d2-47fa-4872-a9a7-decfb3e322a1" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="4f98f946-475a-43a2-9e75-3f52c98685a4" >
+		<vm:queues >
+			<vm:queue queueName="vm"/>
+		</vm:queues>
+	</vm:config>
+	<flow name="vmconnectorFlow" doc:id="aa26c5b2-acb8-4858-bf23-570867b129f9" >
+		<http:listener doc:name="Listener" doc:id="a3a8318b-d8ae-4336-b200-9f2c15303a73" config-ref="HTTP_Listener_config" path="vm"/>
+		<vm:publish queueName="vm" doc:name="Publish" doc:id="ed585e9b-c5d2-4ac0-9219-1580dad31feb" config-ref="VM_Config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="6535a185-a6a5-46ac-9c82-5f05eee898a2" message="#[payload]"/>
+	</flow>
+	<flow name="vmconnectorFlow1" doc:id="e74c5b60-06c7-4671-8598-8f5e6fa6d9a7" initialState="stopped">
+		<vm:listener doc:name="Listener" doc:id="e7d6b8d2-445f-40ae-aa0f-fb01cc24ed97" config-ref="VM_Config" numberOfConsumers="10" queueName="vm" timeout="30"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5eee0fc6-04ee-4e61-bf41-44752e66f940" message="#[payload]"/>
+	</flow>
+	<flow name="vmconnectorFlow2" doc:id="5c693133-915a-4490-b290-897d49f442b0" >
+		<http:listener doc:name="Listener" doc:id="0ac7c6eb-1701-46c5-a210-13a57b98ffba" config-ref="HTTP_Listener_config" path=" xxx"/>
+		<vm:consume queueName="vm" doc:name="Consume" doc:id="32d58d3c-dfdc-4088-b42b-b8ecc412b0b6" config-ref="VM_Config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="ed437944-1485-4b02-ba15-6e765eb46390" message="#[payload]"/>
+	</flow>
+</mule>

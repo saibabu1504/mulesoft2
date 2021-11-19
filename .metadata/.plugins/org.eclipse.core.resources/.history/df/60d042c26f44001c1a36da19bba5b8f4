@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d31d5031-ae86-46a8-b906-9401b97d544a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="c60a44f4-6389-4b47-bf76-65194964d55f" />
+	<file:config name="File_Config1" doc:name="File Config" doc:id="b884cced-3d0f-4100-8931-82729d1dad72" />
+	<flow name="mapFlow" doc:id="ae59aa86-e203-4437-8b91-71debafa0cdd" >
+		<http:listener doc:name="Listener" doc:id="2b3297fe-a186-43f2-b2e4-d8db2570e467" config-ref="HTTP_Listener_config" path="sai"/>
+		<file:delete doc:name="Delete" doc:id="975420fd-c695-4f39-b51b-a9b2f39e0a85" config-ref="File_Config" path="C:\Users\HP\Desktop\file1"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8d27011a-b00d-43d1-8b18-4aa169bab3ad" message="#[payload]"/>
+		<file:create-directory doc:name="Create directory" doc:id="2399071c-5c22-4c9b-90e4-87ef8c51df3a" config-ref="File_Config" directoryPath="C:\Users\HP\Desktop\file8\saibabu.txt"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7937f823-b18b-4c53-906e-a9831c941195" message="#[payload]"/>
+	</flow>
+</mule>

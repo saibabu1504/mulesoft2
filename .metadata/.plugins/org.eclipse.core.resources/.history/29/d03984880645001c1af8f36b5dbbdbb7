@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ea0332b3-57c4-4878-80a4-5984301aca89" >
+		<http:listener-connection host="0.0.0.0" port="8086" />
+	</http:listener-config>
+	<flow name="scatterFlow" doc:id="e8885ad3-fc78-4e0c-a957-2df1b592ae28" >
+		<http:listener doc:name="123123" doc:id="cb23d030-3b78-4324-9910-670da8dac50f" config-ref="HTTP_Listener_config" path="987"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="cb2139af-0cb8-4412-9b12-99e1a7f89387" maxConcurrency="30">
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="91ff4905-f17d-406f-8523-54fcc7b3d26e" message="nanna"/>
+			</route>
+			<route >
+				<flow-ref doc:name="Flow Reference" doc:id="e4679418-5ea5-4404-b4d9-6daee1761352" name="scatterSub_Flow"/>
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="19f8ccf3-710d-4f04-8bb6-353bd0af0afb" message="sai"/>
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="b1e1d836-5e9b-481a-83f7-d608701be4f5" message="pandu"/>
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="ed5df5c7-8559-482e-9e37-d08578fd205c" message="vakalayya"/>
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="83d356c8-45cc-4531-a17b-3b1437710239" message="anusha"/>
+			</route>
+			<route >
+				<logger level="INFO" doc:name="Logger" doc:id="b39ca2c5-522a-4bf6-9487-0fdfcc4fbb18" message="#[payload]"/>
+			</route>
+		</scatter-gather>
+	</flow>
+	<sub-flow name="scatterSub_Flow" doc:id="edc997d7-a8fc-4d8d-a519-4489501efca5" >
+		<logger level="INFO" doc:name="Logger" doc:id="2dff7608-e31c-4836-9913-8303b02502f3" message="Amma"/>
+	</sub-flow>
+</mule>

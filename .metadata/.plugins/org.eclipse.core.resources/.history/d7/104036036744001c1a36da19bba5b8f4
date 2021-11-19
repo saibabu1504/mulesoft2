@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d31d5031-ae86-46a8-b906-9401b97d544a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mapFlow" doc:id="8b18452d-25fa-4a32-b930-03a4250b6693" >
+		<http:listener doc:name="Map topic" doc:id="4b8e0a0a-06be-42a9-8827-01979bf78d92" config-ref="HTTP_Listener_config" path="sai"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0837ec60-4e7a-4bed-90cc-48f6be89a9be" message="m started"/>
+		<flow-ref doc:name="Flow Reference" doc:id="56a97b5b-44ca-4d12-a5c5-6d15648098a0" name="mapSub_Flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="08f05100-bdf0-4b2f-bdf9-4a46aff80d43" message="m ended"/>
+	</flow>
+	<sub-flow name="mapSub_Flow" doc:id="e32b171f-32ca-450c-92ec-dd841b64e017" >
+		<logger level="INFO" doc:name="Logger" doc:id="f7ebede0-5ccc-4c24-9139-eb15d76525a6" message="s started"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a0bcf10f-f0d2-4931-bb29-02adef3241a6" message="s ended"/>
+	</sub-flow>
+</mule>

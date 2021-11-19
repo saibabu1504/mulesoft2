@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d31d5031-ae86-46a8-b906-9401b97d544a" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="c60a44f4-6389-4b47-bf76-65194964d55f" />
+	<file:config name="File_Config1" doc:name="File Config" doc:id="b884cced-3d0f-4100-8931-82729d1dad72" />
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="edd0afff-82bd-44bb-8a07-9e80a4677e31" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="aspiresystems.co.in@gmail.com" password="sai@9542436802" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="mail" doc:id="ae59aa86-e203-4437-8b91-71debafa0cdd" initialState="stopped">
+		<http:listener doc:name="smtpmail" doc:id="2b3297fe-a186-43f2-b2e4-d8db2570e467" config-ref="HTTP_Listener_config" path="sai"/>
+		<flow-ref doc:name="Flow Reference" doc:id="4a6f7dde-abbc-4327-8992-a74f2c834b30" name="smtpFlow"/>
+		<email:send doc:name="Send" doc:id="384bc7de-6bea-438a-883f-810629a3d7a5" config-ref="Email_SMTP" subject="Regarding your interview schedule from Aspire solutions">
+			<email:to-addresses >
+				<email:to-address value="saiposina93@gmail.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="saiposina93@gmail.com" />
+			</email:cc-addresses>
+			<email:body>
+				<email:content ><![CDATA[ sai babu want to talk]]></email:content>
+				<email:content ><![CDATA[Hi Trinath ,
+
+ we are happy to inform you that your interview scheduled on below slots and pleas be avilable
+ 
+ 2020-11-17 
+ 
+ 2:30 pm
+ 
+click here to join the meeting ]]></email:content>
+			</email:body>
+			<email:attachments ><![CDATA[#[payload]]]></email:attachments>
+		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="8242a37f-3c86-42e0-a37d-972ce0dfe881" message="#[payload]"/>
+	</flow>
+	<flow name="smtpFlow" doc:id="d089512f-3f10-4cab-853f-4334b8bead18" >
+		<scheduler doc:name="Scheduler" doc:id="9c6bfa39-1c3b-4d47-9004-597e3a04bc2c" >
+			<scheduling-strategy >
+				<cron expression="0 0/10 * 1/1 * ? *" timeZone="ist" />
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="3103a834-3669-42d3-85f1-99f582436123" message="#[payload]"/>
+	</flow>
+</mule>

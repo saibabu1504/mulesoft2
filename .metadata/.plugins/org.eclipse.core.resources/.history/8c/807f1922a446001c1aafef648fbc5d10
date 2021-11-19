@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d31d5031-ae86-46a8-b906-9401b97d544a" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="edd0afff-82bd-44bb-8a07-9e80a4677e31" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="aspiresystems.co.in@gmail.com" password="sai@9542436802" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="1c10a675-6b75-48a6-81a4-5a95608c2ad2" />
+	<flow name="smtpFlow" doc:id="9b28f235-91b8-448d-823d-8a512f2cb561" >
+		<http:listener doc:name="Listener" doc:id="b2fbaeae-88dc-483a-8435-e4308828e746" config-ref="HTTP_Listener_config" path="sai"/>
+		<flow-ref doc:name="Flow Reference" doc:id="63f7f5c5-323c-47d7-a14d-fa1d7b757395" name="smtpFlow1"/>
+		<file:read doc:name="Read" doc:id="c0a00b61-73bd-498f-9f66-cd3435c5b5a0" config-ref="File_Config" path="C:\software\AnypointStudio\smtp\mule-artifact.json"/>
+		<email:send doc:name="Send" doc:id="573d5957-e770-4acd-87c0-71d75a94bb94" config-ref="Email_SMTP" subject="Regarding the interview schedule">
+			<email:to-addresses >
+				<email:to-address value="pinnentitrinath@gmail.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="saiposina93@gmail.com" />
+			</email:cc-addresses>
+			<email:body >
+				<email:content ><![CDATA[Hi Trinath,
+
+ Please accept this invite
+ 
+ Click here to join meeting 
+ 
+ 3:30 PM || 16-11-2021|| Mulesoft Developer
+ 
+ Microsoft Teams]]></email:content>
+			</email:body>
+			<email:attachments ><![CDATA[#[{
+	"attachments.json": payload
+}]]]></email:attachments>
+		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="130f5ef9-b5ea-406c-b9fb-8b14e4d27e9e" message="#[payload]"/>
+	</flow>
+	<flow name="smtpFlow1" doc:id="59c55a05-0c3a-4b98-8419-819d7e6da956" >
+		<scheduler doc:name="Scheduler" doc:id="36b51b89-7f01-4253-b400-9d622461917a" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="HOURS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="c71c6869-4247-4764-b7f6-fea632aaf432" message="#[payload]"/>
+	</flow>
+</mule>

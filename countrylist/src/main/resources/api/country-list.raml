@@ -1,0 +1,17 @@
+#%RAML 1.0
+title: country list
+version: v1
+description: The API is used to fetch common data to all APIs in the ABC system
+protocols:
+  - https
+mediaType: 
+- application/json
+
+/master/country: 
+ get:
+    description: this api is used to fetch country list in ABC system
+    responses:
+     200:
+       body:
+         example: !include response example.raml
+           

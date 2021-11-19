@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d31d5031-ae86-46a8-b906-9401b97d544a" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="c60a44f4-6389-4b47-bf76-65194964d55f" />
+	<flow name="mapFlow" doc:id="1ba8c238-825b-4de2-95b6-8b03990f28c8" >
+		<http:listener doc:name="Listener" doc:id="ed02422f-a14f-4a8c-9369-59d3791716a2" config-ref="HTTP_Listener_config" path="sai"/>
+		<file:write doc:name="Write" doc:id="796afd8b-a76d-4d0e-9160-578e285a0cc4" path="C:\Users\HP\Desktop\file2\file3\.txt" config-ref="File_Config">
+			<file:content ><![CDATA[#["welcome to mule soft and it is going to big booh in feature so you have to prepare"]]]></file:content>
+		</file:write>
+		<logger level="INFO" doc:name="Logger" doc:id="98abc5ab-4bcb-4455-83f1-8df68f566d7e" message="#[payload]"/>
+	</flow>
+</mule>

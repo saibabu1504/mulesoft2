@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="schedularFlow" doc:id="c8305501-6473-471b-be30-1c3cf0f6294a" >
+		<scheduler doc:name="Scheduler" doc:id="bfe200da-6a8e-4436-8598-823eb814e265" >
+			<scheduling-strategy >
+				<cron expression="1/20 * * *?" timeZone="IST" />
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="ffe657db-0f8c-4067-afa4-56ddaa33d1f7" message="&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;need your help here&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;"/>
+	</flow>
+</mule>
